@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Momentum — Objectif sportif vivant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+  <header class="hero" id="mission">
+    <nav class="topbar">
+      <a class="brand" href="#mission"><span></span> Momentum <em>v0.01</em></a>
+      <div class="navlinks">
+        <a href="#dashboard">Dashboard</a><a href="#analyses">Analyses</a><a href="#journal">Journal</a><a href="#settings">Objectif</a>
+      </div>
+    </nav>
+    <section class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Donner vie à l'objectif</p>
+        <h1 id="heroTitle">Mission Marathon<br><span>Sub 3h00</span></h1>
+        <p class="hero-text" id="heroText">Chaque séance est une pierre de plus sur le chemin vers la ligne de départ.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#add">Ajouter une séance</a>
+          <button class="btn ghost" id="exportBtn">Exporter JSON</button>
+          <label class="btn ghost file-btn">Importer JSON<input id="importFile" type="file" accept="application/json" /></label>
+        </div>
+      </div>
+      <aside class="mission-card glass">
+        <div class="mission-ring" aria-label="Progression préparation"><div><strong id="progressPct">0%</strong><span>progression</span></div></div>
+        <div class="mission-details">
+          <p>Objectif</p><strong id="raceName">Marathon octobre 2026</strong>
+          <p>Chrono cible</p><strong id="targetTime">2h59'59</strong>
+          <p>Allure cible</p><strong id="targetPace">4'15/km</strong>
+          <p>Jours restants</p><strong id="daysLeft">—</strong>
+        </div>
+      </aside>
+    </section>
+  </header>
+
+  <main>
+    <section class="health glass">
+      <div><span>Health bar</span><strong id="phaseLabel">Construction</strong></div>
+      <div class="bar"><i id="healthBar"></i></div>
+      <p id="healthText">La préparation commence. L'objectif est de créer de la régularité.</p>
+    </section>
+
+    <section id="dashboard" class="section">
+      <div class="section-title"><p class="eyebrow">Tableau de bord</p><h2>Cette semaine</h2></div>
+      <div class="kpi-grid">
+        <article class="kpi glass"><span>Volume</span><strong id="kpiKm">0 km</strong><small id="kpiKmDelta">—</small></article>
+        <article class="kpi glass"><span>Temps</span><strong id="kpiTime">0h00</strong><small>toutes activités</small></article>
+        <article class="kpi glass"><span>Charge</span><strong id="kpiLoad">0</strong><small>RPE × durée</small></article>
+        <article class="kpi glass"><span>Séances</span><strong id="kpiSessions">0</strong><small id="kpiQuality">—</small></article>
+      </div>
+      <div class="chart-grid">
+        <article class="panel glass"><div class="panel-head"><h3>Volume hebdo</h3><span>km course</span></div><canvas id="volumeChart"></canvas></article>
+        <article class="panel glass"><div class="panel-head"><h3>Charge</h3><span>effort total</span></div><canvas id="loadChart"></canvas></article>
+        <article class="panel glass"><div class="panel-head"><h3>Forme / fatigue</h3><span>CTL · ATL · TSB</span></div><canvas id="fitnessChart"></canvas></article>
+        <article class="panel glass"><div class="panel-head"><h3>Sports</h3><span>temps passé</span></div><canvas id="sportChart"></canvas></article>
+      </div>
+    </section>
+
+    <section id="analyses" class="section">
+      <div class="section-title"><p class="eyebrow">Lecture automatique</p><h2>Ce que raconte l'entraînement</h2></div>
+      <div id="insights" class="insight-grid"></div>
+    </section>
+
+    <section id="add" class="section split">
+      <div><div class="section-title"><p class="eyebrow">Au fil de l'eau</p><h2>Ajouter une séance</h2></div>
+        <form id="sessionForm" class="form glass">
+          <label>Date<input type="date" name="date" required></label>
+          <label>Sport<select name="sport" id="sportSelect"></select></label>
+          <label>Type<select name="type"><option>Endurance</option><option>Allure marathon</option><option>Seuil</option><option>VMA</option><option>Sortie longue</option><option>Récupération</option><option>Musculation</option><option>Technique</option><option>Compétition</option></select></label>
+          <label>Distance km<input type="number" step="0.01" min="0" name="distance" value="0"></label>
+          <label>Durée min<input type="number" step="1" min="0" name="duration" required></label>
+          <label>FC moy<input type="number" step="1" min="0" name="hr" placeholder="132"></label>
+          <label>RPE 1-10<input type="number" step="1" min="1" max="10" name="rpe" value="3"></label>
+          <label class="full">Commentaire<textarea name="comment" rows="3" placeholder="Sensations, météo, objectif de la séance..."></textarea></label>
+          <button class="btn primary" type="submit">Enregistrer</button>
+        </form>
+      </div>
+      <aside class="glass mini-guide"><h3>Esprit Momentum</h3><p>On ne stocke pas seulement des kilomètres. On construit une histoire : objectif, régularité, signaux faibles, apprentissages.</p><ul><li>Les données restent dans ton navigateur.</li><li>L'export JSON permet de partager ou sauvegarder.</li><li>Le fichier peut être adapté pour un ami.</li></ul></aside>
+    </section>
+
+    <section id="journal" class="section">
+      <div class="section-title row"><div><p class="eyebrow">Carnet de bord</p><h2>Dernières séances</h2></div><button class="btn ghost danger" id="resetBtn">Réinitialiser démo</button></div>
+      <div id="journalList" class="journal-list"></div>
+    </section>
+
+    <section id="settings" class="section split">
+      <div><div class="section-title"><p class="eyebrow">Personnalisation</p><h2>Adapter l'objectif</h2></div>
+        <form id="profileForm" class="form glass">
+          <label>Prénom<input name="athlete" required></label>
+          <label>Nom du projet<input name="project" required></label>
+          <label>Objectif<input name="goal" required></label>
+          <label>Date objectif<input type="date" name="targetDate" required></label>
+          <label>Chrono cible<input name="targetTime" placeholder="2h59'59"></label>
+          <label>Allure cible<input name="targetPace" placeholder="4'15/km"></label>
+          <label class="full">Phrase du Hero<textarea name="tagline" rows="2"></textarea></label>
+          <button class="btn primary" type="submit">Mettre à jour le Hero</button>
+        </form>
+      </div>
+      <aside class="glass mini-guide"><h3>Pour tes amis</h3><p>Ils modifient simplement le profil : Hyrox, trail, natation, vélo, remise en forme. La base reste la même, l'histoire change.</p></aside>
+    </section>
+  </main>
+  <footer>Momentum v0.01 — Base HTML locale, personnalisable et partageable.</footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
