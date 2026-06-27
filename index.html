@@ -3,108 +3,151 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Momentum — Objectif sportif vivant</title>
+  <title>Momentum v0.04 — Journal de mission sportive</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
-  <header class="hero" id="mission">
-    <nav class="topbar">
-      <a class="brand" href="#mission"><span></span> Momentum <em>v0.01</em></a>
-      <div class="navlinks">
-        <a href="#dashboard">Dashboard</a><a href="#analyses">Analyses</a><a href="#journal">Journal</a><a href="#settings">Objectif</a>
-      </div>
+  <header class="topbar">
+    <a class="brand" href="#hero"><span class="mark">△</span><strong>Momentum</strong><em>v0.04</em></a>
+    <nav>
+      <a href="#today">Aujourd'hui</a>
+      <a href="#journal">Journal</a>
+      <a href="#progression">Progression</a>
+      <a href="#mission">Mission</a>
     </nav>
-    <section class="hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Donner vie à l'objectif</p>
-        <h1 id="heroTitle">Mission Marathon<br><span>Sub 3h00</span></h1>
-        <p class="hero-text" id="heroText">Chaque séance est une pierre de plus sur le chemin vers la ligne de départ.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#add">Ajouter une séance</a>
-          <button class="btn ghost" id="exportBtn">Exporter JSON</button>
-          <label class="btn ghost file-btn">Importer JSON<input id="importFile" type="file" accept="application/json" /></label>
-        </div>
-      </div>
-      <aside class="mission-card glass">
-        <div class="mission-ring" aria-label="Progression préparation"><div><strong id="progressPct">0%</strong><span>progression</span></div></div>
-        <div class="mission-details">
-          <p>Objectif</p><strong id="raceName">Marathon octobre 2026</strong>
-          <p>Chrono cible</p><strong id="targetTime">2h59'59</strong>
-          <p>Allure cible</p><strong id="targetPace">4'15/km</strong>
-          <p>Jours restants</p><strong id="daysLeft">—</strong>
-        </div>
-      </aside>
-    </section>
+    <div class="top-actions">
+      <button class="small-btn" id="exportBtn" type="button">Exporter</button>
+      <label class="small-btn">Importer<input id="importFile" type="file" accept="application/json" /></label>
+    </div>
   </header>
 
   <main>
-    <section class="health glass">
-      <div><span>Health bar</span><strong id="phaseLabel">Construction</strong></div>
-      <div class="bar"><i id="healthBar"></i></div>
-      <p id="healthText">La préparation commence. L'objectif est de créer de la régularité.</p>
-    </section>
-
-    <section id="dashboard" class="section">
-      <div class="section-title"><p class="eyebrow">Tableau de bord</p><h2>Cette semaine</h2></div>
-      <div class="kpi-grid">
-        <article class="kpi glass"><span>Volume</span><strong id="kpiKm">0 km</strong><small id="kpiKmDelta">—</small></article>
-        <article class="kpi glass"><span>Temps</span><strong id="kpiTime">0h00</strong><small>toutes activités</small></article>
-        <article class="kpi glass"><span>Charge</span><strong id="kpiLoad">0</strong><small>RPE × durée</small></article>
-        <article class="kpi glass"><span>Séances</span><strong id="kpiSessions">0</strong><small id="kpiQuality">—</small></article>
+    <section id="hero" class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Journal de mission</p>
+        <h1 id="heroTitle">Marathon Amsterdam 2026</h1>
+        <p class="hero-quote" id="heroQuote">Discipline aujourd'hui, liberté demain.</p>
+        <div class="mission-pills">
+          <div><span id="daysLeft">J-0</span><small id="targetDateLabel">18 octobre 2026</small></div>
+          <div><span id="missionProgress">0%</span><small>du chemin</small></div>
+          <div><span id="goalLabel">Sub 3h00</span><small>objectif</small></div>
+          <div><span id="paceLabel">4'15/km</span><small>allure cible</small></div>
+        </div>
       </div>
-      <div class="chart-grid">
-        <article class="panel glass"><div class="panel-head"><h3>Volume hebdo</h3><span>km course</span></div><canvas id="volumeChart"></canvas></article>
-        <article class="panel glass"><div class="panel-head"><h3>Charge</h3><span>effort total</span></div><canvas id="loadChart"></canvas></article>
-        <article class="panel glass"><div class="panel-head"><h3>Forme / fatigue</h3><span>CTL · ATL · TSB</span></div><canvas id="fitnessChart"></canvas></article>
-        <article class="panel glass"><div class="panel-head"><h3>Sports</h3><span>temps passé</span></div><canvas id="sportChart"></canvas></article>
+      <a class="scroll-cue" href="#today">Commencer la journée ↓</a>
+    </section>
+
+    <section id="today" class="story-section today-story">
+      <div class="section-kicker">Aujourd'hui</div>
+      <h2 id="todayTitle">La page du jour</h2>
+      <p class="lead" id="todayNarrative">Chaque journée écrit une ligne de la préparation.</p>
+      <div class="today-grid">
+        <article class="story-card main-day-card" id="todayCard"></article>
+        <article class="story-card planned-card" id="plannedCard"></article>
       </div>
     </section>
 
-    <section id="analyses" class="section">
-      <div class="section-title"><p class="eyebrow">Lecture automatique</p><h2>Ce que raconte l'entraînement</h2></div>
-      <div id="insights" class="insight-grid"></div>
-    </section>
-
-    <section id="add" class="section split">
-      <div><div class="section-title"><p class="eyebrow">Au fil de l'eau</p><h2>Ajouter une séance</h2></div>
-        <form id="sessionForm" class="form glass">
-          <label>Date<input type="date" name="date" required></label>
-          <label>Sport<select name="sport" id="sportSelect"></select></label>
-          <label>Type<select name="type"><option>Endurance</option><option>Allure marathon</option><option>Seuil</option><option>VMA</option><option>Sortie longue</option><option>Récupération</option><option>Musculation</option><option>Technique</option><option>Compétition</option></select></label>
-          <label>Distance km<input type="number" step="0.01" min="0" name="distance" value="0"></label>
-          <label>Durée min<input type="number" step="1" min="0" name="duration" required></label>
-          <label>FC moy<input type="number" step="1" min="0" name="hr" placeholder="132"></label>
-          <label>RPE 1-10<input type="number" step="1" min="1" max="10" name="rpe" value="3"></label>
-          <label class="full">Commentaire<textarea name="comment" rows="3" placeholder="Sensations, météo, objectif de la séance..."></textarea></label>
-          <button class="btn primary" type="submit">Enregistrer</button>
-        </form>
+    <section class="story-section living-section">
+      <div class="section-kicker">Fenêtre vivante</div>
+      <div class="section-head">
+        <div>
+          <h2>3 jours passés · aujourd'hui · 3 jours à venir</h2>
+          <p>Pas une semaine administrative. Une vision utile pour avancer.</p>
+        </div>
+        <button class="round-btn" id="centerToday" type="button">Aujourd'hui</button>
       </div>
-      <aside class="glass mini-guide"><h3>Esprit Momentum</h3><p>On ne stocke pas seulement des kilomètres. On construit une histoire : objectif, régularité, signaux faibles, apprentissages.</p><ul><li>Les données restent dans ton navigateur.</li><li>L'export JSON permet de partager ou sauvegarder.</li><li>Le fichier peut être adapté pour un ami.</li></ul></aside>
+      <div class="living-line"><span>Passé</span><i></i><b>Aujourd'hui</b><i></i><span>À venir</span></div>
+      <div id="livingWeek" class="living-week"></div>
     </section>
 
-    <section id="journal" class="section">
-      <div class="section-title row"><div><p class="eyebrow">Carnet de bord</p><h2>Dernières séances</h2></div><button class="btn ghost danger" id="resetBtn">Réinitialiser démo</button></div>
-      <div id="journalList" class="journal-list"></div>
-    </section>
-
-    <section id="settings" class="section split">
-      <div><div class="section-title"><p class="eyebrow">Personnalisation</p><h2>Adapter l'objectif</h2></div>
-        <form id="profileForm" class="form glass">
-          <label>Prénom<input name="athlete" required></label>
-          <label>Nom du projet<input name="project" required></label>
-          <label>Objectif<input name="goal" required></label>
-          <label>Date objectif<input type="date" name="targetDate" required></label>
-          <label>Chrono cible<input name="targetTime" placeholder="2h59'59"></label>
-          <label>Allure cible<input name="targetPace" placeholder="4'15/km"></label>
-          <label class="full">Phrase du Hero<textarea name="tagline" rows="2"></textarea></label>
-          <button class="btn primary" type="submit">Mettre à jour le Hero</button>
-        </form>
+    <section id="journal" class="story-section journal-section">
+      <div class="section-kicker">Journal</div>
+      <div class="section-head">
+        <div>
+          <h2 id="monthTitle">Mois</h2>
+          <p>Chaque case est une page. Clique sur un jour pour ouvrir le chapitre.</p>
+        </div>
+        <div class="calendar-actions">
+          <button class="round-btn" id="prevMonth" type="button">‹</button>
+          <button class="round-btn" id="nextMonth" type="button">›</button>
+          <button class="round-btn" id="todayBtn" type="button">Aujourd'hui</button>
+        </div>
       </div>
-      <aside class="glass mini-guide"><h3>Pour tes amis</h3><p>Ils modifient simplement le profil : Hyrox, trail, natation, vélo, remise en forme. La base reste la même, l'histoire change.</p></aside>
+      <div id="monthGrid" class="month-grid"></div>
+    </section>
+
+    <section id="progression" class="story-section progression-section">
+      <div class="section-kicker">Progression</div>
+      <h2>Les chiffres ne sont pas l'histoire. Ils en sont la preuve.</h2>
+      <div class="kpi-strip" id="kpiStrip"></div>
+      <div class="charts-grid">
+        <article class="chart-card"><h3>Volume hebdomadaire</h3><canvas id="volumeChart"></canvas></article>
+        <article class="chart-card"><h3>Charge & forme</h3><canvas id="fitnessChart"></canvas></article>
+        <article class="chart-card"><h3>Répartition sportive</h3><canvas id="sportChart"></canvas></article>
+        <article class="chart-card"><h3>Bien-être</h3><canvas id="wellnessChart"></canvas></article>
+      </div>
+    </section>
+
+    <section id="mission" class="story-section mission-section">
+      <div class="section-kicker">Mission</div>
+      <h2>Personnaliser l'aventure</h2>
+      <p class="lead">La base peut être partagée. Chacun remplace l'objectif, la phrase et l'image de fond.</p>
+      <form id="profileForm" class="profile-form">
+        <label>Prénom<input name="athlete" required /></label>
+        <label>Mission<input name="project" required /></label>
+        <label>Objectif<input name="goal" required /></label>
+        <label>Date objectif<input type="date" name="targetDate" required /></label>
+        <label>Chrono cible<input name="targetTime" /></label>
+        <label>Allure cible<input name="targetPace" /></label>
+        <label>Distance objectif<input type="number" step="0.001" name="goalDistance" /></label>
+        <label class="full">Phrase de mission<textarea name="tagline" rows="2"></textarea></label>
+        <div class="form-actions full">
+          <button class="primary" type="submit">Mettre à jour</button>
+          <button class="secondary" id="resetBtn" type="button">Réinitialiser la démo</button>
+        </div>
+      </form>
+      <p class="hint">Pour ton image : place simplement <strong>IMG_4510.JPG</strong> dans le même dossier que ce fichier HTML. Elle sera utilisée comme fond du Hero.</p>
     </section>
   </main>
-  <footer>Momentum v0.01 — Base HTML locale, personnalisable et partageable.</footer>
+
+  <dialog id="dayDialog" class="day-dialog">
+    <button class="close-btn" id="closeDay" type="button">×</button>
+    <div id="dayDialogContent"></div>
+  </dialog>
+
+  <template id="sessionFormTemplate">
+    <form class="mini-form session-form">
+      <input type="hidden" name="id" />
+      <label>Statut<select name="status"><option value="planned">Prévu</option><option value="done">Réalisé</option></select></label>
+      <label>Sport<select name="sport"></select></label>
+      <label>Type<select name="type"><option>Endurance</option><option>Allure marathon</option><option>Seuil</option><option>VMA</option><option>Fractionné</option><option>Sortie longue</option><option>Renforcement</option><option>Récupération</option><option>Technique</option><option>Compétition</option></select></label>
+      <label>Distance km<input type="number" step="0.01" min="0" name="distance" /></label>
+      <label>Durée min<input type="number" step="1" min="0" name="duration" /></label>
+      <label>FC moy<input type="number" step="1" min="0" name="hr" /></label>
+      <label>RPE<input type="number" step="1" min="1" max="10" name="rpe" /></label>
+      <label>Matériel<input name="gear" /></label>
+      <label class="full">Notes<textarea name="comment" rows="3"></textarea></label>
+      <label class="full file-line">Importer GPX<input type="file" name="gpx" accept=".gpx,application/gpx+xml" /></label>
+      <div class="form-actions full"><button class="primary" type="submit">Enregistrer</button><button class="secondary delete-session" type="button">Supprimer</button></div>
+    </form>
+  </template>
+
+  <template id="wellnessFormTemplate">
+    <form class="mini-form wellness-form">
+      <label>Humeur /10<input type="number" min="1" max="10" name="mood" /></label>
+      <label>Sommeil h<input type="number" min="0" max="14" step="0.1" name="sleep" /></label>
+      <label>FC repos<input type="number" min="0" name="restHr" /></label>
+      <label>VFC ms<input type="number" min="0" name="hrv" /></label>
+      <label>Poids kg<input type="number" min="0" step="0.1" name="weight" /></label>
+      <label>Énergie /10<input type="number" min="1" max="10" name="energy" /></label>
+      <label>Courbatures<select name="soreness"><option></option><option>Aucune</option><option>Légères</option><option>Moyennes</option><option>Fortes</option></select></label>
+      <label>Stress /10<input type="number" min="1" max="10" name="stress" /></label>
+      <label class="full">Commentaire<textarea name="note" rows="2"></textarea></label>
+      <button class="primary full" type="submit">Enregistrer le bien-être</button>
+    </form>
+  </template>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
 </body>
