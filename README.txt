@@ -1,16 +1,14 @@
-Momentum v0.05
-===============
+Momentum v0.07 — Journal de mission sportive
 
-Corrections principales :
-- version responsive mobile / iPhone améliorée ;
-- fenêtre du jour en plein écran sur mobile ;
-- Hero adapté à Safari iOS avec 100svh ;
-- semaine vivante en défilement horizontal tactile ;
-- calendrier compact sur mobile ;
-- graphique "Volume hebdomadaire" corrigé : additionne désormais tous les sports avec distance (course, vélo, randonnée, marche, natation, etc.), et plus seulement la course à pied.
+Nouveautés :
+- Météo du jour / jours passés via Open-Meteo.
+- Lever et coucher du soleil intégrés au récit de la journée.
+- Lieu par défaut configurable dans la mission.
+- Si une trace GPX est importée, le lieu GPS de l'activité devient prioritaire pour ce jour.
+- Carte GPS plus élégante avec Leaflet + CARTO Voyager.
+- Lecture automatique plus narrative : la donnée sert l'histoire.
 
-Installation GitHub Pages :
-- envoyer index.html, style.css, app.js et IMG_4510.JPG dans le même dossier ;
-- conserver exactement le nom IMG_4510.JPG pour l'image Hero.
-
-Note : la clé locale reste compatible avec la v0.04 pour conserver les données déjà saisies dans le navigateur.
+À noter :
+- La météo et la carte utilisent des services externes. Il faut donc une connexion internet.
+- Pour GitHub Pages, garde index.html, style.css, app.js et IMG_4510.JPG dans le même dossier.
+- Les anciennes données locales sont conservées grâce à la même clé localStorage.

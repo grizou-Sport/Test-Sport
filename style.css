@@ -79,3 +79,13 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   .top-actions{display:none;}
   .month-grid{grid-template-columns:repeat(7,52px);}
 }
+
+/* v0.07 — décor de la journée : météo, soleil et carte plus élégante */
+.context-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 20px}
+.context-grid div{background:linear-gradient(135deg,#f4faff,#edf7ff);border:1px solid var(--line);border-radius:18px;padding:13px;min-height:72px}
+.context-grid span{display:block;color:var(--muted);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.context-grid strong{display:block;margin-top:4px;font-size:17px;line-height:1.25;color:#173b6b}
+.leaflet-map{height:270px;border:1px solid rgba(32,120,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.45),0 18px 40px rgba(32,120,255,.12);background:#eaf5ff}
+.leaflet-container{font-family:inherit;border-radius:20px}
+@media(max-width:760px){.context-grid{grid-template-columns:1fr 1fr}.leaflet-map{height:245px}}
+@media(max-width:390px){.context-grid{grid-template-columns:1fr}.leaflet-map{height:220px}}
