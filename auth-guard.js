@@ -1,9 +1,12 @@
 async function protectMomentum() {
-  const { data } = await momentumDB.auth.getSession();
+  const { data, error } = await momentumDB.auth.getSession();
 
-  if (!data.session) {
-    window.location.href = "login.html";
+  if (error || !data.session) {
+    window.location.replace("login.html");
+    return;
   }
+
+  document.body.classList.add("auth-ready");
 }
 
 protectMomentum();

@@ -1,3 +1,13 @@
+async function redirectIfLoggedIn() {
+  const { data } = await momentumDB.auth.getSession();
+
+  if (data.session) {
+    window.location.replace("index.html");
+  }
+}
+
+redirectIfLoggedIn();
+
 const authForm = document.getElementById("authForm");
 const authMessage = document.getElementById("authMessage");
 const loginBtn = document.getElementById("loginBtn");
