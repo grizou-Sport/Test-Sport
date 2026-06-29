@@ -456,6 +456,3 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
     padding:16px;
   }
 }
-body:not(.auth-ready):not(.login-body){
-  visibility:hidden;
-}
