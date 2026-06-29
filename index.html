@@ -3,32 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Momentum v0.07 — Journal de mission sportive</title>
+  <title>Momentum — HOME</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
+
 <body>
   <header class="topbar">
-    <a class="brand" href="#hero"><span class="mark">△</span><strong>Momentum</strong><em>v0.07</em></a>
-    <nav>
-  <a href="index.html">HOME</a>
-  <a href="you.html">YOU</a>
-  <a href="#" class="disabled-link">TOGETHER</a>
-</nav>
+    <a class="brand" href="#hero">
+      <span class="mark">△</span><strong>Momentum</strong><em>v0.08</em>
+    </a>
 
-  <div class="top-actions">
-  <button class="small-btn" id="exportBtn" type="button">Exporter</button>
-  <label class="small-btn">Importer<input id="importFile" type="file" accept="application/json" /></label>
-</div>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="you.html">YOU</a>
+      <a href="#" class="disabled-link">TOGETHER</a>
+    </nav>
+
+    <div class="top-actions"></div>
   </header>
 
   <main>
     <section id="hero" class="hero">
       <div class="hero-overlay"></div>
       <div class="hero-content">
-        <p class="eyebrow">Journal de mission</p>
+        <p class="eyebrow">HOME</p>
         <h1 id="heroTitle">Marathon Amsterdam 2026</h1>
         <p class="hero-quote" id="heroQuote">Discipline aujourd'hui, liberté demain.</p>
+
         <div class="mission-pills">
           <div><span id="daysLeft">J-0</span><small id="targetDateLabel">18 octobre 2026</small></div>
           <div><span id="missionProgress">0%</span><small>du chemin</small></div>
@@ -36,6 +38,7 @@
           <div><span id="paceLabel">4'15/km</span><small>allure cible</small></div>
         </div>
       </div>
+
       <a class="scroll-cue" href="#today">Commencer la journée ↓</a>
     </section>
 
@@ -43,6 +46,7 @@
       <div class="section-kicker">Aujourd'hui</div>
       <h2 id="todayTitle">La page du jour</h2>
       <p class="lead" id="todayNarrative">Chaque journée écrit une ligne de la préparation.</p>
+
       <div class="today-grid">
         <article class="story-card main-day-card" id="todayCard"></article>
         <article class="story-card planned-card" id="plannedCard"></article>
@@ -58,7 +62,11 @@
         </div>
         <button class="round-btn" id="centerToday" type="button">Aujourd'hui</button>
       </div>
-      <div class="living-line"><span>Passé</span><i></i><b>Aujourd'hui</b><i></i><span>À venir</span></div>
+
+      <div class="living-line">
+        <span>Passé</span><i></i><b>Aujourd'hui</b><i></i><span>À venir</span>
+      </div>
+
       <div id="livingWeek" class="living-week"></div>
     </section>
 
@@ -69,19 +77,23 @@
           <h2 id="monthTitle">Mois</h2>
           <p>Chaque case est une page. Clique sur un jour pour ouvrir le chapitre.</p>
         </div>
+
         <div class="calendar-actions">
           <button class="round-btn" id="prevMonth" type="button">‹</button>
           <button class="round-btn" id="nextMonth" type="button">›</button>
           <button class="round-btn" id="todayBtn" type="button">Aujourd'hui</button>
         </div>
       </div>
+
       <div id="monthGrid" class="month-grid"></div>
     </section>
 
     <section id="progression" class="story-section progression-section">
       <div class="section-kicker">Progression</div>
       <h2>Les chiffres ne sont pas l'histoire. Ils en sont la preuve — la donnée devient une histoire.</h2>
+
       <div class="kpi-strip" id="kpiStrip"></div>
+
       <div class="charts-grid">
         <article class="chart-card"><h3>Volume hebdomadaire</h3><canvas id="volumeChart"></canvas></article>
         <article class="chart-card"><h3>Charge & forme</h3><canvas id="fitnessChart"></canvas></article>
@@ -89,31 +101,28 @@
         <article class="chart-card"><h3>Bien-être</h3><canvas id="wellnessChart"></canvas></article>
       </div>
     </section>
-
-    <section id="mission" class="story-section mission-section">
-      <div class="section-kicker">Mission</div>
-      <h2>Personnaliser l'aventure</h2>
-      <p class="lead">La base peut être partagée. Chacun remplace l'objectif, la phrase et l'image de fond.</p>
-      <form id="profileForm" class="profile-form">
-        <label>Prénom<input name="athlete" required /></label>
-        <label>Mission<input name="project" required /></label>
-        <label>Objectif<input name="goal" required /></label>
-        <label>Date objectif<input type="date" name="targetDate" required /></label>
-        <label>Chrono cible<input name="targetTime" /></label>
-        <label>Allure cible<input name="targetPace" /></label>
-        <label>Distance objectif<input type="number" step="0.001" name="goalDistance" /></label>
-        <label>Lieu par défaut<input name="locationName" placeholder="Bienne" /></label>
-        <label>Latitude<input type="number" step="0.000001" name="latitude" placeholder="47.1368" /></label>
-        <label>Longitude<input type="number" step="0.000001" name="longitude" placeholder="7.2468" /></label>
-        <label class="full">Phrase de mission<textarea name="tagline" rows="2"></textarea></label>
-        <div class="form-actions full">
-          <button class="primary" type="submit">Mettre à jour</button>
-          <button class="secondary" id="resetBtn" type="button">Réinitialiser la démo</button>
-        </div>
-      </form>
-      <p class="hint">Pour ton image : place simplement <strong>IMG_4510.JPG</strong> dans le même dossier que ce fichier HTML. Elle sera utilisée comme fond du Hero.</p>
-    </section>
   </main>
+
+  <!-- Support invisible pour l'ancien app.js -->
+  <section style="display:none">
+    <form id="profileForm">
+      <input name="athlete" />
+      <input name="project" />
+      <input name="goal" />
+      <input type="date" name="targetDate" />
+      <input name="targetTime" />
+      <input name="targetPace" />
+      <input type="number" name="goalDistance" />
+      <input name="locationName" />
+      <input type="number" name="latitude" />
+      <input type="number" name="longitude" />
+      <textarea name="tagline"></textarea>
+    </form>
+
+    <button id="resetBtn" type="button"></button>
+    <button id="exportBtn" type="button"></button>
+    <input id="importFile" type="file" accept="application/json" />
+  </section>
 
   <dialog id="dayDialog" class="day-dialog">
     <button class="close-btn" id="closeDay" type="button">×</button>
@@ -133,7 +142,10 @@
       <label>Matériel<input name="gear" /></label>
       <label class="full">Notes<textarea name="comment" rows="3"></textarea></label>
       <label class="full file-line">Importer GPX<input type="file" name="gpx" accept=".gpx,application/gpx+xml" /></label>
-      <div class="form-actions full"><button class="primary" type="submit">Enregistrer</button><button class="secondary delete-session" type="button">Supprimer</button></div>
+      <div class="form-actions full">
+        <button class="primary" type="submit">Enregistrer</button>
+        <button class="secondary delete-session" type="button">Supprimer</button>
+      </div>
     </form>
   </template>
 
@@ -155,8 +167,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
-<script src="auth-guard.js"></script>
+  <script src="supabase.js"></script>
+  <script src="auth-guard.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
