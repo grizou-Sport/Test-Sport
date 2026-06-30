@@ -90,82 +90,10 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
 @media(max-width:760px){.context-grid{grid-template-columns:1fr 1fr}.leaflet-map{height:245px}}
 @media(max-width:390px){.context-grid{grid-template-columns:1fr}.leaflet-map{height:220px}}
 
-/* v0.08 — HOME / YOU / TOGETHER */
+/* v0.08 — Navigation */
 .disabled-link{
   opacity:.35;
   pointer-events:none;
-}
-
-.you-page{
-  width:min(1120px,calc(100% - 32px));
-  margin:0 auto;
-  padding:140px 0 80px;
-}
-
-.you-hero{
-  background:linear-gradient(135deg,#ffffff,#eef7ff);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-  border-radius:38px;
-  padding:46px;
-}
-
-.you-hero h1{
-  font-size:clamp(70px,12vw,150px);
-  line-height:.85;
-  margin:12px 0;
-  letter-spacing:-.08em;
-}
-
-.you-hero p{
-  font-size:22px;
-  color:var(--muted);
-}
-
-.you-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-  margin-top:24px;
-}
-
-.you-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-  border-radius:30px;
-  padding:26px;
-}
-
-.you-card span{
-  font-size:34px;
-}
-
-.you-card h2{
-  margin:14px 0 8px;
-  font-size:24px;
-}
-
-.you-card p{
-  color:var(--muted);
-  line-height:1.45;
-}
-
-@media(max-width:900px){
-  .you-grid{
-    grid-template-columns:1fr;
-  }
-
-  .you-page{
-    padding-top:110px;
-  }
-}
-/* v0.08 — YOU passport */
-.you-body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 82% 12%,rgba(32,120,255,.16),transparent 28%),
-    linear-gradient(180deg,#f4fbff,#ffffff 45%,#eef7ff);
 }
 
 .active-nav{
@@ -173,9 +101,12 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   color:var(--blue)!important;
 }
 
-.disabled-link{
-  opacity:.35;
-  pointer-events:none;
+/* v0.08 — YOU passport */
+.you-body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 82% 12%,rgba(32,120,255,.16),transparent 28%),
+    linear-gradient(180deg,#f4fbff,#ffffff 45%,#eef7ff);
 }
 
 .you-shell{
@@ -212,9 +143,17 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   font-size:42px;
   font-weight:950;
   color:#fff;
-  background:linear-gradient(135deg,var(--blue),#72c7ff);
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
   box-shadow:0 20px 50px rgba(32,120,255,.22);
   margin-bottom:26px;
+  overflow:hidden;
+}
+
+.you-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:999px;
 }
 
 .you-passport-card h1{
@@ -236,20 +175,21 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   font-size:18px;
 }
 
+/* Correction : stats en colonne */
 .you-mini-stats{
   margin-top:auto;
-  display:grid;
-  gap:14px;
+  display:flex;
+  flex-direction:column;
+  gap:0;
 }
 
 .you-mini-stats div{
-  display:flex;
-  justify-content:space-between;
+  display:grid;
+  grid-template-columns:1fr auto;
   align-items:center;
-  gap:16px;
-  padding:10px 0;
+  gap:18px;
+  padding:12px 0;
   border-bottom:1px solid var(--line);
-  color:#456891;
 }
 
 .you-mini-stats div:last-child{
@@ -263,11 +203,13 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
 
 .you-mini-stats strong{
   color:var(--ink);
+  font-weight:950;
   text-align:right;
+  white-space:nowrap;
 }
 
 .you-edit-btn{
-  margin-top:24px;
+  margin-top:18px;
   border:0;
   border-radius:20px;
   padding:14px 16px;
@@ -275,6 +217,10 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   color:#164476;
   font-weight:900;
   cursor:pointer;
+}
+
+.you-edit-btn + .you-edit-btn{
+  margin-top:12px;
 }
 
 .you-main-card{
@@ -363,7 +309,7 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   display:block;
   height:100%;
   border-radius:999px;
-  background:linear-gradient(90deg,var(--blue),#72c7ff);
+  background:linear-gradient(90deg,var(--blue),var(--blue2));
 }
 
 .you-detail-stats{
@@ -430,41 +376,33 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   font-weight:800;
 }
 
-@media(max-width:1000px){
-  .you-shell{
-    grid-template-columns:1fr;
-  }
-
-  .you-passport-card{
-    min-height:auto;
-  }
-
-  .you-main-card{
-    grid-template-columns:1fr;
-  }
+/* YOU form */
+.you-form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:24px;
 }
 
-@media(max-width:620px){
-  .you-shell{
-    width:calc(100% - 24px);
-    padding-top:110px;
-  }
-
-  .you-passport-card,
-  .you-main-card,
-  .you-detail{
-    border-radius:26px;
-    padding:20px;
-  }
-
-  .you-detail-stats{
-    grid-template-columns:1fr;
-  }
-
-  .you-menu-item{
-    padding:16px;
-  }
+.you-form label{
+  display:grid;
+  gap:8px;
+  color:var(--muted);
+  font-weight:800;
 }
+
+.you-form input,
+.you-form textarea{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px 16px;
+  font:inherit;
+}
+
+.you-form .full{
+  grid-column:1 / -1;
+}
+
 /* Login Momentum Alpha */
 .login-body{
   margin:0;
@@ -556,6 +494,21 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
   object-fit:cover;
 }
 
+/* Responsive YOU */
+@media(max-width:1000px){
+  .you-shell{
+    grid-template-columns:1fr;
+  }
+
+  .you-passport-card{
+    min-height:auto;
+  }
+
+  .you-main-card{
+    grid-template-columns:1fr;
+  }
+}
+
 @media(max-width:850px){
   .login-shell{
     grid-template-columns:1fr;
@@ -569,34 +522,26 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.
     padding:36px 24px;
   }
 }
-.you-form{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-  margin-top:24px;
-}
 
-.you-form label{
-  display:grid;
-  gap:8px;
-  color:var(--muted);
-  font-weight:800;
-}
+@media(max-width:620px){
+  .you-shell{
+    width:calc(100% - 24px);
+    padding-top:110px;
+  }
 
-.you-form input,
-.you-form textarea{
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px 16px;
-  font:inherit;
-}
+  .you-passport-card,
+  .you-main-card,
+  .you-detail{
+    border-radius:26px;
+    padding:20px;
+  }
 
-.you-form .full{
-  grid-column:1 / -1;
-}
-.you-avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:999px;
+  .you-detail-stats,
+  .you-form{
+    grid-template-columns:1fr;
+  }
+
+  .you-menu-item{
+    padding:16px;
+  }
 }
