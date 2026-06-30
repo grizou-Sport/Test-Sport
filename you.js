@@ -1,127 +1,169 @@
-async function loadPassport() {
-  const { data: sessionData } = await momentumDB.auth.getSession();
-  const user = sessionData.session?.user;
+const youDetail = document.getElementById("youDetail");
+const youButtons = document.querySelectorAll("[data-you-section]");
+const logoutBtn = document.getElementById("logoutBtn");
 
-  if (!user) return;
+let currentUser = null;
+let passport = null;
 
-  const { data, error } = await momentumDB
+function calculateAge(birthYear) {
+  if (!birthYear) return "—";
+  return `${new Date().getFullYear() - birthYear} ans`;
+}
+
+function renderPassportCard() {
+  document.getElementById("passportName").textContent =
+    passport?.display_name || currentUser?.email || "—";
+
+  document.getElementById("passportLocation").textContent =
+    [passport?.city, passport?.country].filter(Boolean).join(", ") || "—";
+
+  document.getElementById("passportQuote").textContent =
+    `“${passport?.quote || "Écris la prochaine ligne."}”`;
+
+  document.getElementById("passportAge").textContent =
+    calculateAge(passport?.birth_year);
+
+  document.getElementById("passportHeight").textContent =
+    passport?.height_cm ? `${passport.height_cm} cm` : "—";
+
+  document.getElementById("passportWeight").textContent =
+    passport?.weight_kg ? `${passport.weight_kg} kg` : "—";
+}
+
+async function loadYou() {
+  const { data } = await window.momentumDB.auth.getSession();
+  currentUser = data.session?.user;
+
+  if (!currentUser) return;
+
+  const { data: passportData, error } = await window.momentumDB
     .from("passports")
     .select("*")
-    .eq("user_id", user.id)
+    .eq("user_id", currentUser.id)
     .single();
 
   if (error) {
-    console.error("Erreur passeport :", error);
+    console.error(error);
     return;
   }
 
-  document.getElementById("passportName").textContent =
-    data.display_name || user.email;
-
-  document.getElementById("passportLocation").textContent =
-    data.country || "—";
-
-  document.getElementById("passportQuote").textContent =
-    `“${data.quote || "Écris la prochaine ligne."}”`;
+  passport = passportData;
+  renderPassportCard();
+  renderSection("about");
 }
 
-loadPassport();
+function renderSection(section) {
+  youButtons.forEach((b) => b.classList.remove("active"));
+  document
+    .querySelector(`[data-you-section="${section}"]`)
+    ?.classList.add("active");
 
-const youDetail = document.getElementById("youDetail");
-const youButtons = document.querySelectorAll("[data-you-section]");
+  if (section === "about") {
+    youDetail.innerHTML = `
+      <p class="section-kicker">À propos de toi</p>
+      <h2>Ton passeport</h2>
 
-const youSections = {
-  mission: `
-    <p class="section-kicker">Mission actuelle</p>
-    <h2>Amsterdam Marathon 2026</h2>
-    <p class="you-detail-lead">Objectif principal de la saison.</p>
-    <div class="you-progress-line"><i style="width:67%"></i></div>
-    <div class="you-detail-stats">
-      <div><span>Distance objectif</span><strong>42,195 km</strong></div>
-      <div><span>Temps objectif</span><strong>2h59'59</strong></div>
-      <div><span>Allure cible</span><strong>4'15/km</strong></div>
-      <div><span>Progression</span><strong>67 %</strong></div>
-    </div>
-    <div class="you-note-box">
-      <span>Notes personnelles</span>
-      <p>Discipline aujourd’hui, liberté demain.</p>
-    </div>
-  `,
+      <form id="passportForm" class="you-form">
+        <label>Nom complet
+          <input name="display_name" value="${passport?.display_name || ""}" />
+        </label>
 
-  sports: `
-    <p class="section-kicker">Sports</p>
-    <h2>Tes terrains d’expression</h2>
-    <div class="you-list">
-      <p><strong>Course à pied</strong><span>Principal</span></p>
-      <p><strong>Vélo</strong><span>Secondaire</span></p>
-      <p><strong>Randonnée</strong><span>Ponctuel</span></p>
-    </div>
-  `,
+        <label>Ville
+          <input name="city" value="${passport?.city || ""}" />
+        </label>
 
-  equipment: `
-    <p class="section-kicker">Équipement</p>
-    <h2>Ton matériel</h2>
-    <div class="you-list">
-      <p><strong>COROS Apex 4</strong><span>Montre</span></p>
-      <p><strong>WHOOP 4.0</strong><span>Capteur</span></p>
-      <p><strong>Adidas Adizero Pro 4</strong><span>Chaussures</span></p>
-      <p><strong>BMC Roadmachine</strong><span>Vélo</span></p>
-    </div>
-  `,
+        <label>Pays
+          <input name="country" value="${passport?.country || ""}" />
+        </label>
 
-  wellbeing: `
-    <p class="section-kicker">Bien-être</p>
-    <h2>Ton état intérieur</h2>
-    <div class="you-list">
-      <p><strong>Sommeil</strong><span>7h42</span></p>
-      <p><strong>Énergie</strong><span>72 %</span></p>
-      <p><strong>Humeur</strong><span>Positive</span></p>
-      <p><strong>Stress</strong><span>Modéré</span></p>
-      <p><strong>VFC moyenne</strong><span>68 ms</span></p>
-    </div>
-  `,
+        <label>Année de naissance
+          <input name="birth_year" type="number" value="${passport?.birth_year || ""}" />
+        </label>
 
-  data: `
-    <p class="section-kicker">Données</p>
-    <h2>Ajouter une activité</h2>
-    <div class="you-list">
-      <p><strong>Remplir manuellement</strong><span>Disponible</span></p>
-      <p><strong>Importer un fichier</strong><span>.fit, .gpx, .tcx</span></p>
-      <p><strong>Exporter mes données</strong><span>Sauvegarde</span></p>
-    </div>
-  `,
+        <label>Taille cm
+          <input name="height_cm" type="number" value="${passport?.height_cm || ""}" />
+        </label>
 
-  collections: `
-    <p class="section-kicker">Collections</p>
-    <h2>Les chapitres importants</h2>
-    <div class="you-list">
-      <p><strong>Levers de soleil</strong><span>18</span></p>
-      <p><strong>100 km de Bienne</strong><span>1</span></p>
-      <p><strong>Courses</strong><span>12</span></p>
-      <p><strong>Lieux</strong><span>7</span></p>
-    </div>
-  `,
+        <label>Poids kg
+          <input name="weight_kg" type="number" step="0.1" value="${passport?.weight_kg || ""}" />
+        </label>
 
-  about: `
-    <p class="section-kicker">À propos de toi</p>
-    <h2>Ton passeport</h2>
-    <div class="you-list">
-      <p><strong>Nom</strong><span>Chris Gyger</span></p>
-      <p><strong>Lieu</strong><span>Suisse 🇨🇭</span></p>
-      <p><strong>Âge</strong><span>48 ans</span></p>
-      <p><strong>Taille</strong><span>177 cm</span></p>
-      <p><strong>Poids</strong><span>76 kg</span></p>
-    </div>
-  `,
-};
+        <label class="full">Phrase
+          <textarea name="quote" rows="3">${passport?.quote || ""}</textarea>
+        </label>
+
+        <button class="login-primary full" type="submit">Enregistrer</button>
+        <p id="passportMessage" class="login-message full"></p>
+      </form>
+    `;
+
+    document.getElementById("passportForm").addEventListener("submit", savePassport);
+    return;
+  }
+
+  const sections = {
+    mission: ["Mission actuelle", "Amsterdam Marathon 2026"],
+    sports: ["Sports", "Tes terrains d’expression."],
+    equipment: ["Équipement", "Ton matériel."],
+    wellbeing: ["Bien-être", "Ton état intérieur."],
+    data: ["Données", "Ajouter une activité, importer ou exporter."],
+    collections: ["Collections", "Les chapitres importants."],
+  };
+
+  const [title, text] = sections[section];
+
+  youDetail.innerHTML = `
+    <p class="section-kicker">${title}</p>
+    <h2>${title}</h2>
+    <p class="you-detail-lead">${text}</p>
+  `;
+}
+
+async function savePassport(event) {
+  event.preventDefault();
+
+  const form = new FormData(event.target);
+  const message = document.getElementById("passportMessage");
+
+  const updates = {
+    display_name: form.get("display_name")?.trim(),
+    city: form.get("city")?.trim(),
+    country: form.get("country")?.trim(),
+    quote: form.get("quote")?.trim(),
+    birth_year: form.get("birth_year") ? Number(form.get("birth_year")) : null,
+    height_cm: form.get("height_cm") ? Number(form.get("height_cm")) : null,
+    weight_kg: form.get("weight_kg") ? Number(form.get("weight_kg")) : null,
+    updated_at: new Date().toISOString(),
+  };
+
+  message.textContent = "Sauvegarde...";
+
+  const { data, error } = await window.momentumDB
+    .from("passports")
+    .update(updates)
+    .eq("user_id", currentUser.id)
+    .select()
+    .single();
+
+  if (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  passport = data;
+  renderPassportCard();
+  message.textContent = "Sauvegardé.";
+}
 
 youButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const section = button.dataset.youSection;
-
-    youButtons.forEach((b) => b.classList.remove("active"));
-    button.classList.add("active");
-
-    youDetail.innerHTML = youSections[section];
+    renderSection(button.dataset.youSection);
   });
 });
+
+logoutBtn?.addEventListener("click", async () => {
+  await window.momentumDB.auth.signOut();
+  window.location.href = "login.html";
+});
+
+loadYou();
