@@ -31,7 +31,7 @@ signupBtn.addEventListener("click", async () => {
   const { data, error } = await momentumDB.auth.signUp({
     email,
     password,
-    options: {
+    options: {emailRedirectTo: "https://momentum-alpha-rho.vercel.app/you.html",
       data: {
         display_name: displayName || email.split("@")[0],
       },
